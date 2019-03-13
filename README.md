@@ -1,52 +1,35 @@
-# 🦀🕸️ `wasm-pack-template`
+# webassembly-tests-rust
 
-A template for kick starting a Rust and WebAssembly project using
-[`wasm-pack`](https://github.com/rustwasm/wasm-pack).
+This is a WebAssembly module to provide tests for [webassembly-test-app](https://github.com/ponchofiesta/webassembly-test-app).
 
-This template is designed for compiling Rust libraries into WebAssembly and
-publishing the resulting package to NPM.
+## Prerequisites
 
-* Want to use the published NPM package in a Website? [Check out
-  `create-wasm-app`.](https://github.com/rustwasm/create-wasm-app)
-* Want to make a monorepo-style Website without publishing to NPM? Check out
-  [`rust-webpack-template`](https://github.com/rustwasm/rust-webpack-template)
-  and/or
-  [`rust-parcel-template`](https://github.com/rustwasm/rust-parcel-template).
+With these things this project was created and tested:
 
-## 🔋 Batteries Included
+- Node 10.15 with NPM 6.9 (using NVM)
+  ```bash
+  # Install NVM and follow instructions
+  curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
+  # Install Node and NPM
+  nvm install 10
+  nvm use 10
+  npm install npm@6.9.0 -g
+  ```
+- Rust 1.33
+  ```bash
+  curl https://sh.rustup.rs -sSf | sh
+  ```
+- wasm-pack 0.6
+  ```bash
+  curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+  ```
+- cargo-generate 0.2.2
+  ```bash
+  cargo install cargo-generate
+  ```
 
-* [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen) for communicating
-  between WebAssembly and JavaScript.
-* [`console_error_panic_hook`](https://github.com/rustwasm/console_error_panic_hook)
-  for logging panic messages to the developer console.
-* [`wee_alloc`](https://github.com/rustwasm/wee_alloc), an allocator optimized
-  for small code size.
+## Build
 
-## 🚴 Usage
-
-### 🐑 Use `cargo generate` to Clone this Template
-
-[Learn more about `cargo generate` here.](https://github.com/ashleygwilliams/cargo-generate)
-
-```
-cargo generate --git https://github.com/rustwasm/wasm-pack-template.git --name my-project
-cd my-project
-```
-
-### 🛠️ Build with `wasm-pack build`
-
-```
+```bash
 wasm-pack build
-```
-
-### 🔬 Test in Headless Browsers with `wasm-pack test`
-
-```
-wasm-pack test --headless --firefox
-```
-
-### 🎁 Publish to NPM with `wasm-pack publish`
-
-```
-wasm-pack publish
 ```
