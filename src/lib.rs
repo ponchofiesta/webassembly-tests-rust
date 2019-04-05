@@ -27,13 +27,9 @@ pub fn greet() {
 }
 
 #[wasm_bindgen]
-pub fn fibonacci(n: i32) -> u64 {
-    if n < 0 {
-        panic!("{} is negative!", n);
-    } else if n == 0 {
-        panic!("zero is not a right argument to fibonacci()!");
-    } else if n == 1 {
-        return 1;
+pub fn fibonacci(n: i32) -> i32 {
+    if n < 2 {
+        return n;
     }
 
     let mut sum = 0;
