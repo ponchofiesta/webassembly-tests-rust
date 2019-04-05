@@ -5,6 +5,7 @@ mod utils;
 
 use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
+use std::mem::swap;
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -14,16 +15,6 @@ cfg_if! {
         #[global_allocator]
         static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
     }
-}
-
-#[wasm_bindgen]
-extern {
-    fn alert(s: &str);
-}
-
-#[wasm_bindgen]
-pub fn greet() {
-    alert("Hello, webassembly-tests-rust!");
 }
 
 #[wasm_bindgen]
@@ -41,4 +32,12 @@ pub fn fibonacci(n: i32) -> i32 {
         curr = sum;
     }
     sum
+}
+
+#[wasm_bindgen]
+pub fn hanoi(n: i32, from: i32, to: i32, via: i32) {
+    if n > 0 {
+        hanoi(n - 1, from, via, to);
+        hanoi(n - 1, via, to, from);
+    }
 }
