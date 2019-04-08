@@ -2,10 +2,10 @@ extern crate cfg_if;
 extern crate wasm_bindgen;
 
 mod utils;
+mod tests;
 
 use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
-use std::mem::swap;
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -35,9 +35,8 @@ pub fn fibonacci(n: i32) -> i32 {
 }
 
 #[wasm_bindgen]
-pub fn hanoi(n: i32, from: i32, to: i32, via: i32) {
-    if n > 0 {
-        hanoi(n - 1, from, via, to);
-        hanoi(n - 1, via, to, from);
-    }
+pub fn hanoi(n: i32, from: &str, to: &str, via: &str) -> String {
+    let moves = String::new();
+    let moves = tests::hanoi::hanoi(n, from, to, via, &moves);
+    moves.into_owned()
 }
