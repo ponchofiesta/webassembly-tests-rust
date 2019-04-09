@@ -13,7 +13,11 @@ default = ["console_error_panic_hook"]
 cfg-if = "0.1.2"
 #wasm-bindgen = "0.2"
 # Use 0.2.34 to make WASM work in Create React App
-wasm-bindgen = "=0.2.34"
+wasm-bindgen = { version = "=0.2.34", features = ["serde-serialize"] }
+serde = "^1.0.90"
+serde_derive = "^1.0.90"
+js-sys = "0.3.11"
+web-sys = { version = "0.3.11", features = ["console"] }
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires

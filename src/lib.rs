@@ -1,11 +1,17 @@
 extern crate cfg_if;
 extern crate wasm_bindgen;
+extern crate js_sys;
+extern crate web_sys;
+
+#[macro_use]
+extern crate serde_derive;
 
 mod utils;
 mod tests;
 
 use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
+use tests::sort::User;
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -36,7 +42,27 @@ pub fn fibonacci(n: i32) -> i32 {
 
 #[wasm_bindgen]
 pub fn hanoi(n: i32, from: &str, to: &str, via: &str) -> String {
-    let moves = String::new();
-    let moves = tests::hanoi::hanoi(n, from, to, via, &moves);
-    moves.into_owned()
+    //let moves = String::new();
+
+    //let moves = unsafe { tests::hanoi::hanoi(n, from, to, via) };
+    //moves.into()
+
+    let hanoi = tests::hanoi::Hanoi::new();
+    hanoi.hanoi(n, from, to, via)
 }
+
+//#[wasm_bindgen]
+//pub fn sort(data_path: &JsValue) {
+//    //let persons: Vec<Person> = data.into_serde().unwrap();
+//    web_sys::console::log_1(data_path.into());
+//
+//    let mut users: Vec<User> = reqwest::get(&data_path).json();
+//
+//
+//    //console::log1(data.capacity());
+//    //let data: [Person] = js_data.into_serde().unwrap();
+//    tests::sort::sort(&mut users);
+//
+//    //let data = tests::sort::sort(&data);
+//    //JsValue::from_serde(&data).unwrap()
+//}
