@@ -60,6 +60,11 @@ pub fn sort() {
 }
 
 #[wasm_bindgen]
+pub fn prime(max: usize) {
+    tests::prime::prime(max);
+}
+
+#[wasm_bindgen]
 pub fn prepare_test_data(test: &str, data: JsValue) {
     web_sys::console::log_1(&JsValue::from("Rust: prepare_test_data"));
     match test {

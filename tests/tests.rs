@@ -3,6 +3,7 @@ extern crate webassembly_tests_rust;
 use webassembly_tests_rust::tests::{fibonacci, sort};
 use webassembly_tests_rust::tests::hanoi;
 use webassembly_tests_rust::tests::sort::User;
+use webassembly_tests_rust::tests::prime::prime;
 
 #[test]
 fn test_fibonacci() {
@@ -34,4 +35,12 @@ fn test_sort() {
     let actual = sort::sort(&mut data);
 
     assert_eq!(&expect[..], &actual[..]);
+}
+
+#[test]
+fn test_prime() {
+    let expect: Vec<usize> = vec![2, 3, 5, 7, 11, 13, 17, 19];
+    let actual = prime(20);
+
+    assert_eq!(&expect, &actual);
 }
