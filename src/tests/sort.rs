@@ -1,5 +1,3 @@
-use web_sys::{console};
-use wasm_bindgen::prelude::*;
 use std::cmp::Ordering;
 
 #[derive(Serialize, Deserialize, Debug, Eq, Ord)]
@@ -30,8 +28,6 @@ impl PartialOrd for User {
 }
 
 pub fn sort(data: &mut Vec<User>) -> &Vec<User> {
-    //console::log_1(&JsValue::from(format!("sort {:?}", &data[0])));
     data.sort();
-    //console::log_1(&JsValue::from(format!("sort {}", data.len())));
     data
 }
