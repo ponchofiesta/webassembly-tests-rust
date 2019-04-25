@@ -2,16 +2,15 @@ extern crate cfg_if;
 extern crate wasm_bindgen;
 extern crate js_sys;
 extern crate web_sys;
-extern crate futures;
 extern crate serde;
 extern crate wasm_bindgen_futures;
-extern crate openssl;
 
 #[macro_use]
 extern crate lazy_static;
 
 #[macro_use]
 extern crate serde_derive;
+extern crate inflate;
 
 mod utils;
 pub mod tests;
@@ -33,50 +32,59 @@ cfg_if! {
 
 #[wasm_bindgen]
 pub fn fibonacci(n: i32) -> i32 {
-    web_sys::console::log_1(&JsValue::from("Rust: fibonacci"));
+    web_sys::console::debug_1(&JsValue::from("Rust: fibonacci"));
     tests::fibonacci::fibonacci(n)
 }
 
 #[wasm_bindgen]
 pub fn hanoi(n: i32, from: &str, to: &str, via: &str) -> String {
-    web_sys::console::log_1(&JsValue::from("Rust: hanoi"));
+    web_sys::console::debug_1(&JsValue::from("Rust: hanoi"));
     let mut hanoi = tests::hanoi::Hanoi::new();
     hanoi.hanoi(n, from, to, via).into()
 }
 
 #[wasm_bindgen]
 pub fn sort() {
-    web_sys::console::log_1(&JsValue::from("Rust: sort"));
+    web_sys::console::debug_1(&JsValue::from("Rust: sort"));
     let mut users = testdata::DATA_SORT.lock().unwrap();
     tests::sort::sort(&mut users);
 }
 
 #[wasm_bindgen]
 pub fn prime(max: usize) {
+    web_sys::console::debug_1(&JsValue::from("Rust: prime"));
     tests::prime::prime(max);
 }
 
 #[wasm_bindgen]
 pub fn aes() {
+    web_sys::console::debug_1(&JsValue::from("Rust: aes"));
     let key = [1u8, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     let iv = [17u8, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
-    let data = "abcdefghijklmnop".as_bytes();
-    tests::aes(&key, &iv, &data);
+    let data = testdata::DATA_BYTES.lock().unwrap();
+    tests::aes::aes_encrypt(&key, &iv, &data);
+}
+
+#[wasm_bindgen]
+pub fn deflate() {
+    web_sys::console::debug_1(&JsValue::from("Rust: deflate"));
+    let data = testdata::DATA_BYTES.lock().unwrap();
+    tests::deflate::deflate(&data);
 }
 
 #[wasm_bindgen]
 pub fn prepare_test_data(test: &str, data: JsValue) {
-    web_sys::console::log_1(&JsValue::from("Rust: prepare_test_data"));
+    web_sys::console::debug_1(&JsValue::from("Rust: prepare_test_data"));
     match test {
         "sort" => {
             let data: Vec<User> = data.into_serde().unwrap();
-            let mut entry = testdata::DATA_SORT_BASE.lock().unwrap();
-            *entry = data;
+            let mut data_entry = testdata::DATA_SORT_BASE.lock().unwrap();
+            *data_entry = data;
         },
-        "aes" => {
-            let data: Vec<u8> = data.into_serde().unwrap();
-            let mut entry = testdata::DATA_AES_BASE.lock().unwrap();
-            *entry = data;
+        "bytes" => {
+            let data: Vec<u8> = data.as_string().unwrap().into_bytes();
+            let mut data_entry = testdata::DATA_BYTES_BASE.lock().unwrap();
+            *data_entry = data;
         }
         _ => panic!(format!("Rust: Invalid test type '{}'", test))
     }
@@ -84,17 +92,17 @@ pub fn prepare_test_data(test: &str, data: JsValue) {
 
 #[wasm_bindgen]
 pub fn reset_test_data(test: &str) {
-    web_sys::console::log_1(&JsValue::from("Rust: reset_test_data"));
+    web_sys::console::debug_1(&JsValue::from("Rust: reset_test_data"));
     match test {
         "sort" => {
             let base = testdata::DATA_SORT_BASE.lock().unwrap();
-            let mut entry = testdata::DATA_SORT.lock().unwrap();
-            *entry = base.clone();
+            let mut data = testdata::DATA_SORT.lock().unwrap();
+            *data = base.clone();
         },
-        "aes" => {
-            let base = testdata::DATA_AES_BASE.lock().unwrap();
-            let mut entry = testdata::DATA_AES.lock().unwrap();
-            *entry = base.clone();
+        "bytes" => {
+            let base = testdata::DATA_BYTES_BASE.lock().unwrap();
+            let mut data = testdata::DATA_BYTES.lock().unwrap();
+            *data = base.clone();
         }
         _ => {}
     };
@@ -102,14 +110,18 @@ pub fn reset_test_data(test: &str) {
 
 #[wasm_bindgen]
 pub fn clear_test_data(test: &str) {
-    web_sys::console::log_1(&JsValue::from("Rust: clear_test_data"));
+    web_sys::console::debug_1(&JsValue::from("Rust: clear_test_data"));
     match test {
         "sort" => {
-            let mut entry = testdata::DATA_SORT.lock().unwrap();
-            entry.clear();
+            let mut data = testdata::DATA_SORT.lock().unwrap();
+            data.clear();
+            let mut base = testdata::DATA_SORT_BASE.lock().unwrap();
+            base.clear();
         },
-        "aes" => {
-            let mut entry = testdata::DATA_AES.lock().unwrap();
+        "bytes" => {
+            let mut entry = testdata::DATA_BYTES.lock().unwrap();
+            entry.clear();
+            let mut entry = testdata::DATA_BYTES_BASE.lock().unwrap();
             entry.clear();
         }
         _ => {}
