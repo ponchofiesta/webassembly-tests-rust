@@ -10,7 +10,6 @@ extern crate lazy_static;
 
 #[macro_use]
 extern crate serde_derive;
-extern crate inflate;
 
 mod utils;
 pub mod benchmarks;
@@ -70,6 +69,17 @@ pub fn deflate() {
     web_sys::console::debug_1(&JsValue::from("Rust: deflate"));
     let data = data::DATA_BYTES.lock().unwrap();
     benchmarks::deflate::deflate(&data);
+}
+
+#[wasm_bindgen]
+pub fn convolve(canvas: &web_sys::HtmlCanvasElement) {
+    web_sys::console::debug_1(&JsValue::from("Rust: convolve"));
+    let matrix = vec![
+        vec![0.0, 0.2, 0.0],
+        vec![0.2, 0.2, 0.2],
+        vec![0.0, 0.2, 0.0],
+    ];
+    benchmarks::convolve::convolve(&canvas, &matrix, 1f32);
 }
 
 #[wasm_bindgen]

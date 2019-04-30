@@ -1,4 +1,5 @@
 extern crate webassembly_benchmarks_rust;
+extern crate wasm_bindgen;
 
 use webassembly_benchmarks_rust::benchmarks::{fibonacci, sort};
 use webassembly_benchmarks_rust::benchmarks::hanoi;
@@ -6,6 +7,7 @@ use webassembly_benchmarks_rust::benchmarks::sort::User;
 use webassembly_benchmarks_rust::benchmarks::prime::prime;
 use webassembly_benchmarks_rust::benchmarks::aes::{aes_encrypt, aes_decrypt};
 use webassembly_benchmarks_rust::benchmarks::deflate::{deflate, inflate};
+use wasm_bindgen::Clamped;
 
 #[test]
 fn test_fibonacci() {
@@ -82,4 +84,13 @@ fn test_deflate() {
     let decompressed_text = std::str::from_utf8(&decompressed).unwrap();
 
     assert_eq!(&text, &decompressed_text);
+}
+
+#[test]
+fn test_clamped() {
+    let clamped = Clamped(vec![2u8]);
+    let expect = vec![2u8];
+    let mut r = 0.0;
+    r += clamped[0] as f32 * 0.2;
+    assert_eq!(clamped[0], expect[0]);
 }

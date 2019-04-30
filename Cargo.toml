@@ -19,7 +19,7 @@ wasm-bindgen = { version = "=0.2.34", features = ["serde-serialize"] }
 #wasm-bindgen = { version = "=0.2.42", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.3.11"
 #wasm-bindgen-futures = "0.3.19"
-web-sys = { version = "0.3.11", features = ["console", "Headers", "Request", "RequestInit", "RequestMode", "Response", "Window"] }
+web-sys = { version = "0.3.11", features = ["console", "Headers", "Request", "RequestInit", "RequestMode", "Response", "Window", "HtmlImageElement", "HtmlCanvasElement", "CanvasRenderingContext2d", "ImageData"] }
 #web-sys = { version = "0.3.19", features = ["console", "Headers", "Request", "RequestInit", "RequestMode", "Response", "Window"] }
 js-sys = "0.3.11"
 #js-sys = "0.3.19"
