@@ -1,4 +1,4 @@
-# webassembly-tests-rust
+# webassembly-benchmarks-rust
 
 This is a WebAssembly module to provide tests for [webassembly-test-app](https://github.com/ponchofiesta/webassembly-test-app).
 

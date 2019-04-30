@@ -1,5 +1,5 @@
 use std::sync::Mutex;
-use tests::sort::User;
+use benchmarks::sort::User;
 
 lazy_static! {
     pub static ref DATA_SORT_BASE: Mutex<Vec<User>> = Mutex::new(vec![]);

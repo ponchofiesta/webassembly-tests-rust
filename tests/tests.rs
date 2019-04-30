@@ -1,11 +1,11 @@
-extern crate webassembly_tests_rust;
+extern crate webassembly_benchmarks_rust;
 
-use webassembly_tests_rust::tests::{fibonacci, sort};
-use webassembly_tests_rust::tests::hanoi;
-use webassembly_tests_rust::tests::sort::User;
-use webassembly_tests_rust::tests::prime::prime;
-use webassembly_tests_rust::tests::aes::{aes_encrypt, aes_decrypt};
-use webassembly_tests_rust::tests::deflate::{deflate, inflate};
+use webassembly_benchmarks_rust::benchmarks::{fibonacci, sort};
+use webassembly_benchmarks_rust::benchmarks::hanoi;
+use webassembly_benchmarks_rust::benchmarks::sort::User;
+use webassembly_benchmarks_rust::benchmarks::prime::prime;
+use webassembly_benchmarks_rust::benchmarks::aes::{aes_encrypt, aes_decrypt};
+use webassembly_benchmarks_rust::benchmarks::deflate::{deflate, inflate};
 
 #[test]
 fn test_fibonacci() {
