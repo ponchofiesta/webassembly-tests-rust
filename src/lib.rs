@@ -73,13 +73,13 @@ pub fn deflate() {
 
 #[wasm_bindgen]
 pub fn convolve(canvas: &web_sys::HtmlCanvasElement) {
-    web_sys::console::debug_1(&JsValue::from("Rust: convolve"));
-    let matrix = vec![
-        vec![0.0, 0.2, 0.0],
-        vec![0.2, 0.2, 0.2],
-        vec![0.0, 0.2, 0.0],
+    //web_sys::console::debug_1(&JsValue::from("Rust: convolve"));
+    let matrix = [
+        0.0, 0.2, 0.0,
+        0.2, 0.2, 0.2,
+        0.0, 0.2, 0.0,
     ];
-    benchmarks::convolve::convolve(&canvas, &matrix, 1f32);
+    benchmarks::convolve::convolve(&canvas, &matrix, 1.0);
 }
 
 #[wasm_bindgen]

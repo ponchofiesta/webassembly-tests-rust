@@ -1,56 +1,49 @@
 use web_sys::{HtmlCanvasElement, CanvasRenderingContext2d};
 use wasm_bindgen::{JsCast, Clamped};
-use wasm_bindgen::prelude::JsValue;
+//use wasm_bindgen::prelude::JsValue;
 
-pub fn convolve(canvas: &HtmlCanvasElement, matrix: &Vec<Vec<f32>>, factor: f32) {
-
-    let width = canvas.width() as usize;
-    let height = canvas.height() as usize;
-
-    web_sys::console::debug_1(&JsValue::from("Rust: 1"));
+pub fn convolve(canvas: &HtmlCanvasElement, matrix: &[f32], factor: f32) {
+    let side = (matrix.len() as f32).sqrt() as usize;
+    let half_side = (side as f32 / 2.0).floor() as usize;
     let context = canvas.get_context("2d").unwrap().unwrap().dyn_into::<CanvasRenderingContext2d>().unwrap();
-    web_sys::console::debug_1(&JsValue::from("Rust: 2"));
+    let source = context.get_image_data(0.0, 0.0, canvas.width().into(), canvas.height().into()).unwrap();
+    let source_data: Clamped<Vec<u8>> = source.data();
+    let image_width = source.width() as usize;
+    let image_height = source.height() as usize;
+    let output = context.create_image_data_with_sw_and_sh(image_width as f64, image_height as f64).unwrap();
+    let mut output_data = output.data();
 
-    let data: Clamped<Vec<u8>> = context.get_image_data(0.0, 0.0, width as f64, height as f64).unwrap().data();
-    web_sys::console::debug_1(&JsValue::from("Rust: 3"));
-    let mut out = context.create_image_data_with_sw_and_sh(width as f64, height as f64).unwrap().data();
-
-    web_sys::console::debug_1(&JsValue::from("Rust: 4"));
-    let matrix_width = matrix[0].len();
-    let matrix_height = matrix.len();
-    let half = (matrix_height / 2) as usize;
-
-    web_sys::console::debug_1(&JsValue::from(format!("Rust: helf={}", half)));
-    web_sys::console::debug_1(&JsValue::from("Rust: 5"));
-    for y in 0..height - 1 {
-        for x in 0..width - 1 {
-            let px = (y * width + x) * 4;
+    for y in 0..image_height {
+        for x in 0..image_width {
+            let output_index = (y * image_width + x) * 4;
             let mut r = 0.0;
             let mut g = 0.0;
             let mut b = 0.0;
-
-            for cy in 0..matrix_width {
-                for cx in 0..matrix_height {
-                    let cpx = ((y + (cy - half)) * width + (x + (cx - half))) * 4;
-                    if cpx > data.len() {
-                        web_sys::console::debug_1(&JsValue::from(format!("Rust: cpx={} data_len={}", cpx, data.len())));
+            for cy in 0..side {
+                let scy = match (y + cy).checked_sub(half_side) {
+                    Some(value) => value,
+                    _ => continue
+                };
+                for cx in 0..side {
+                    let scx = match (x + cx).checked_sub(half_side) {
+                        Some(value) => value,
+                        _ => continue
+                    };
+                    if scy < image_height && scx < image_width {
+                        let source_index = (scy * image_width + scx) * 4;
+                        let modify = matrix[cy * side + cx];
+                        r += source_data[source_index] as f32 * modify;
+                        g += source_data[source_index + 1] as f32 * modify;
+                        b += source_data[source_index + 2] as f32 * modify;
                     }
-                    if cy > matrix.len() {
-                        web_sys::console::debug_1(&JsValue::from("Rust: matrix"));
-                    }
-                    if cx > matrix[0].len() {
-                        web_sys::console::debug_1(&JsValue::from("Rust: matrix[0]"));
-                    }
-                    r += data[cpx] as f32 * matrix[cy][cx];
-//                    g += data[cpx + 1] as f32 * matrix[cy][cx];
-//                    b += data[cpx + 2] as f32 * matrix[cy][cx];
                 }
             }
-
-//            out[px + 0] = (factor * r) as u8;
-//            out[px + 1] = (factor * g) as u8;
-//            out[px + 2] = (factor * b) as u8;
-//            out[px + 3] = data[px + 3];
+            output_data[output_index] = (r * factor) as u8;
+            output_data[output_index + 1] = (g * factor) as u8;
+            output_data[output_index + 2] = (b * factor) as u8;
+            output_data[output_index + 3] = source_data[output_index + 3];
         }
     }
+
+    context.put_image_data(&output, 0.0, 0.0).unwrap();
 }

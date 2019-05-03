@@ -85,12 +85,3 @@ fn test_deflate() {
 
     assert_eq!(&text, &decompressed_text);
 }
-
-#[test]
-fn test_clamped() {
-    let clamped = Clamped(vec![2u8]);
-    let expect = vec![2u8];
-    let mut r = 0.0;
-    r += clamped[0] as f32 * 0.2;
-    assert_eq!(clamped[0], expect[0]);
-}
