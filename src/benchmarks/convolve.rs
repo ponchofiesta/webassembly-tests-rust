@@ -1,6 +1,6 @@
-use web_sys::{HtmlCanvasElement, CanvasRenderingContext2d};
+use web_sys::{HtmlCanvasElement, CanvasRenderingContext2d, ImageData};
 use wasm_bindgen::{JsCast, Clamped};
-//use wasm_bindgen::prelude::JsValue;
+use wasm_bindgen::prelude::JsValue;
 
 pub fn convolve(canvas: &HtmlCanvasElement, matrix: &[f32], factor: f32) {
     let side = (matrix.len() as f32).sqrt() as usize;
@@ -10,8 +10,9 @@ pub fn convolve(canvas: &HtmlCanvasElement, matrix: &[f32], factor: f32) {
     let source_data: Clamped<Vec<u8>> = source.data();
     let image_width = source.width() as usize;
     let image_height = source.height() as usize;
-    let output = context.create_image_data_with_sw_and_sh(image_width as f64, image_height as f64).unwrap();
-    let mut output_data = output.data();
+    //let output = context.create_image_data_with_sw_and_sh(image_width as f64, image_height as f64).unwrap();
+    //let mut output_data = output.data();
+    let mut output_data= vec![0u8; image_width * image_height * 4];
 
     for y in 0..image_height {
         for x in 0..image_width {
@@ -45,5 +46,6 @@ pub fn convolve(canvas: &HtmlCanvasElement, matrix: &[f32], factor: f32) {
         }
     }
 
+    let output = ImageData::new_with_u8_clamped_array_and_sh(Clamped(&mut output_data), image_width as u32, image_height as u32).unwrap();
     context.put_image_data(&output, 0.0, 0.0).unwrap();
 }
