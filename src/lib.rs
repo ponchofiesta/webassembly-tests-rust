@@ -30,6 +30,36 @@ cfg_if! {
 }
 
 #[wasm_bindgen]
+pub fn iterate(max: i32) {
+    //web_sys::console::debug_1(&JsValue::from("Rust: iterate"));
+    benchmarks::iterate::iterate(max);
+}
+
+#[wasm_bindgen]
+pub fn strings_dynamic(a: &str, b: &str) {
+    //web_sys::console::debug_1(&JsValue::from("Rust: strings_dynamic"));
+    benchmarks::strings::strings_dynamic(a, b);
+}
+
+#[wasm_bindgen]
+pub fn strings_static(repeat: i32) {
+    //web_sys::console::debug_1(&JsValue::from("Rust: strings_dynamic"));
+    let a = "hello world";
+    let b = "world";
+    for _i in 0..repeat {
+        benchmarks::strings::strings_dynamic(a, b);
+    }
+}
+
+#[wasm_bindgen]
+pub fn sum(repeat: i32) {
+    //web_sys::console::debug_1(&JsValue::from("Rust: strings_dynamic"));
+    for _i in 0..repeat {
+        benchmarks::sum::sum(vec![1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    }
+}
+
+#[wasm_bindgen]
 pub fn fibonacci(n: i32) -> i32 {
     web_sys::console::debug_1(&JsValue::from("Rust: fibonacci"));
     benchmarks::fibonacci::fibonacci(n)

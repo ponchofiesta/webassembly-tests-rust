@@ -5,3 +5,6 @@ pub mod prime;
 pub mod aes;
 pub mod deflate;
 pub mod convolve;
+pub mod iterate;
+pub mod strings;
+pub mod sum;
