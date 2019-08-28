@@ -15,16 +15,16 @@ cfg-if = "0.1.2"
 # WASM
 #wasm-bindgen = "0.2"
 # Use 0.2.34 to make WASM work in Create React App
-wasm-bindgen = { version = "=0.2.34", features = ["serde-serialize"] }
+wasm-bindgen = { version = "=0.2.50", features = ["serde-serialize"] }
 #wasm-bindgen = { version = "=0.2.42", features = ["serde-serialize"] }
-wasm-bindgen-futures = "0.3.11"
+wasm-bindgen-futures = "0.3.27"
 #wasm-bindgen-futures = "0.3.19"
-web-sys = { version = "0.3.11", features = ["console", "Headers", "Request", "RequestInit", "RequestMode", "Response", "Window", "HtmlImageElement", "HtmlCanvasElement", "CanvasRenderingContext2d", "ImageData"] }
+web-sys = { version = "0.3.27", features = ["console", "Headers", "Request", "RequestInit", "RequestMode", "Response", "Window", "HtmlImageElement", "HtmlCanvasElement", "CanvasRenderingContext2d", "ImageData"] }
 #web-sys = { version = "0.3.19", features = ["console", "Headers", "Request", "RequestInit", "RequestMode", "Response", "Window"] }
-js-sys = "0.3.11"
+js-sys = "0.3.27"
 #js-sys = "0.3.19"
-serde = "^1.0.90"
-serde_derive = "^1.0.90"
+serde = "^1.0.99"
+serde_derive = "^1.0.99"
 
 # Misc
 #futures = "0.1.26"
@@ -62,5 +62,7 @@ name = "benchmarks"
 harness = false
 
 [profile.release]
-# Tell `rustc` to optimize for small code size.
-opt-level = "s"
+# optimize for
+# - speed: 1, 2, 3
+# - size: "s", "z"
+opt-level = 3
