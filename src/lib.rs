@@ -18,6 +18,7 @@ pub mod data;
 use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
 use benchmarks::sort::User;
+use wasm_bindgen::Clamped;
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -110,6 +111,18 @@ pub fn convolve(canvas: &web_sys::HtmlCanvasElement) {
         0.0, 0.2, 0.0,
     ];
     benchmarks::convolve::convolve(&canvas, &matrix, 1.0);
+}
+
+#[wasm_bindgen]
+pub fn convolve_video(data: Clamped<Vec<u8>>, width: usize, height: usize, factor: f32, count: usize) -> Clamped<Vec<u8>> {
+    web_sys::console::debug_1(&JsValue::from("Rust: convolve_video"));
+    let matrix: [[f32; 3]; 3] = [
+        [1.0, 1.0, 1.0],
+        [1.0, 1.0, 1.0],
+        [1.0, 1.0, 1.0],
+    ];
+    web_sys::console::debug_1(&JsValue::from("Rust: convolve_video 2"));
+    benchmarks::convolve_video::convolve_video(data, width, height, matrix, factor, count)
 }
 
 #[wasm_bindgen]

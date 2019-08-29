@@ -1,6 +1,5 @@
 use web_sys::{HtmlCanvasElement, CanvasRenderingContext2d, ImageData};
 use wasm_bindgen::{JsCast, Clamped};
-use wasm_bindgen::prelude::JsValue;
 
 pub fn convolve(canvas: &HtmlCanvasElement, matrix: &[f32], factor: f32) {
     let side = (matrix.len() as f32).sqrt() as usize;

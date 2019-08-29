@@ -8,3 +8,4 @@ pub mod convolve;
 pub mod iterate;
 pub mod strings;
 pub mod sum;
+pub mod convolve_video;
