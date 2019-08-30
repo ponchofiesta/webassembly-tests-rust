@@ -2,7 +2,7 @@ use wasm_bindgen::Clamped;
 
 pub fn convolve_video(mut data: Clamped<Vec<u8>>, width: usize, height: usize, matrix: [[f32; 3]; 3], factor: f32, count: usize) -> Clamped<Vec<u8>> {
     let side = matrix.len();
-    let half = (side as f32 / 2.0).floor() as usize;
+    let half = side / 2;
     for _i in 0..count {
         for y in 1..(height - 1) {
             for x in 1..(width - 1) {

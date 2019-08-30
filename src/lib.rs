@@ -115,13 +115,12 @@ pub fn convolve(canvas: &web_sys::HtmlCanvasElement) {
 
 #[wasm_bindgen]
 pub fn convolve_video(data: Clamped<Vec<u8>>, width: usize, height: usize, factor: f32, count: usize) -> Clamped<Vec<u8>> {
-    web_sys::console::debug_1(&JsValue::from("Rust: convolve_video"));
+    //web_sys::console::debug_1(&JsValue::from("Rust: convolve_video"));
     let matrix: [[f32; 3]; 3] = [
         [1.0, 1.0, 1.0],
         [1.0, 1.0, 1.0],
         [1.0, 1.0, 1.0],
     ];
-    web_sys::console::debug_1(&JsValue::from("Rust: convolve_video 2"));
     benchmarks::convolve_video::convolve_video(data, width, height, matrix, factor, count)
 }
 
