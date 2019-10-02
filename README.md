@@ -15,17 +15,13 @@ With these things this project was created and tested:
   nvm use 10
   npm install npm@6.9.0 -g
   ```
-- Rust 1.33
+- Rust 1.38
   ```bash
   curl https://sh.rustup.rs -sSf | sh
   ```
-- wasm-pack 0.6
+- wasm-pack 0.8.1
   ```bash
   curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-  ```
-- cargo-generate 0.2.2
-  ```bash
-  cargo install cargo-generate
   ```
 
 ## Build

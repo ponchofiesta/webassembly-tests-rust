@@ -31,9 +31,9 @@ cfg_if! {
 }
 
 #[wasm_bindgen]
-pub fn iterate(max: i32) {
+pub fn iterate(max: i32) -> i32 {
     //web_sys::console::debug_1(&JsValue::from("Rust: iterate"));
-    benchmarks::iterate::iterate(max);
+    benchmarks::iterate::iterate(max)
 }
 
 #[wasm_bindgen]
