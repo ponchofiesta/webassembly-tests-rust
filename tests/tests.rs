@@ -1,8 +1,8 @@
-#![feature(test)]
+//#![feature(test)]
 
 extern crate webassembly_benchmarks_rust;
 extern crate wasm_bindgen;
-extern crate test;
+//extern crate test;
 
 use webassembly_benchmarks_rust::benchmarks::{fibonacci, sort};
 use webassembly_benchmarks_rust::benchmarks::hanoi;
@@ -11,7 +11,8 @@ use webassembly_benchmarks_rust::benchmarks::prime::prime;
 use webassembly_benchmarks_rust::benchmarks::aes::{aes_encrypt, aes_decrypt};
 use webassembly_benchmarks_rust::benchmarks::deflate::{deflate, inflate};
 use wasm_bindgen::Clamped;
-use test::Bencher;
+//use test::Bencher;
+use webassembly_benchmarks_rust::benchmarks::sha256::sha256;
 
 #[test]
 fn test_fibonacci() {
@@ -54,6 +55,14 @@ fn test_prime() {
 }
 
 #[test]
+fn test_sha256() {
+    let expect = "66840dda154e8a113c31dd0ad32f7f3a366a80e8136979d8f5a101d3d29d6f72";
+    let actual = sha256(&vec![1, 2, 3, 4, 5, 6, 7, 8]);
+
+    assert_eq!(&expect, &actual);
+}
+
+#[test]
 fn test_aes() {
     let key = [1u8, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     let iv = [17u8, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
@@ -90,7 +99,7 @@ fn test_deflate() {
     assert_eq!(&text, &decompressed_text);
 }
 
-#[bench]
-fn bench_iterate(b: &mut Bencher) {
-    b.iter(|| webassembly_benchmarks_rust::iterate(n))
-}
+//#[bench]
+//fn bench_iterate(b: &mut Bencher) {
+//    b.iter(|| webassembly_benchmarks_rust::iterate(n))
+//}

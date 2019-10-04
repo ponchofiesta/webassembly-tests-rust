@@ -4,6 +4,8 @@ extern crate js_sys;
 extern crate web_sys;
 extern crate serde;
 extern crate wasm_bindgen_futures;
+extern crate sha2;
+extern crate hex;
 
 #[macro_use]
 extern crate lazy_static;
@@ -68,22 +70,29 @@ pub fn fibonacci(n: i32) -> i32 {
 
 #[wasm_bindgen]
 pub fn hanoi(n: i32, from: &str, to: &str, via: &str) -> String {
-    web_sys::console::debug_1(&JsValue::from("Rust: hanoi"));
+    //web_sys::console::debug_1(&JsValue::from("Rust: hanoi"));
     let mut hanoi = benchmarks::hanoi::Hanoi::new();
     hanoi.hanoi(n, from, to, via).into()
 }
 
 #[wasm_bindgen]
 pub fn sort() {
-    web_sys::console::debug_1(&JsValue::from("Rust: sort"));
+    //web_sys::console::debug_1(&JsValue::from("Rust: sort"));
     let mut users = data::DATA_SORT.lock().unwrap();
     benchmarks::sort::sort(&mut users);
 }
 
 #[wasm_bindgen]
-pub fn prime(max: usize) {
-    web_sys::console::debug_1(&JsValue::from("Rust: prime"));
-    benchmarks::prime::prime(max);
+pub fn prime(max: usize) -> Vec<usize> {
+    //web_sys::console::debug_1(&JsValue::from("Rust: prime"));
+    benchmarks::prime::prime(max)
+}
+
+#[wasm_bindgen]
+pub fn sha256() -> String {
+    //web_sys::console::debug_1(&JsValue::from("Rust: sort"));
+    let data = data::DATA_BYTES.lock().unwrap();
+    benchmarks::sha256::sha256(&data)
 }
 
 #[wasm_bindgen]
@@ -97,7 +106,7 @@ pub fn aes() {
 
 #[wasm_bindgen]
 pub fn deflate() {
-    web_sys::console::debug_1(&JsValue::from("Rust: deflate"));
+    //web_sys::console::debug_1(&JsValue::from("Rust: deflate"));
     let data = data::DATA_BYTES.lock().unwrap();
     benchmarks::deflate::deflate(&data);
 }
@@ -126,7 +135,7 @@ pub fn convolve_video(data: Clamped<Vec<u8>>, width: usize, height: usize, facto
 
 #[wasm_bindgen]
 pub fn prepare_test_data(test: &str, data: JsValue) {
-    web_sys::console::debug_1(&JsValue::from("Rust: prepare_test_data"));
+    //web_sys::console::debug_1(&JsValue::from("Rust: prepare_test_data"));
     match test {
         "sort" => {
             let data: Vec<User> = data.into_serde().unwrap();
@@ -144,7 +153,7 @@ pub fn prepare_test_data(test: &str, data: JsValue) {
 
 #[wasm_bindgen]
 pub fn reset_test_data(test: &str) {
-    web_sys::console::debug_1(&JsValue::from("Rust: reset_test_data"));
+    //web_sys::console::debug_1(&JsValue::from("Rust: reset_test_data"));
     match test {
         "sort" => {
             let base = data::DATA_SORT_BASE.lock().unwrap();
@@ -162,7 +171,7 @@ pub fn reset_test_data(test: &str) {
 
 #[wasm_bindgen]
 pub fn clear_test_data(test: &str) {
-    web_sys::console::debug_1(&JsValue::from("Rust: clear_test_data"));
+    //web_sys::console::debug_1(&JsValue::from("Rust: clear_test_data"));
     match test {
         "sort" => {
             let mut data = data::DATA_SORT.lock().unwrap();
