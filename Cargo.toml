@@ -44,6 +44,10 @@ block-modes = "0.3.2"
 deflate = "0.7.19"
 inflate = "0.4.5"
 
+# EXIF
+kamadak-exif = "0.3.1"
+rexif = "0.3.6"
+
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
 # all the `std::fmt` and `std::panicking` infrastructure, so isn't great for

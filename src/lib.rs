@@ -20,7 +20,8 @@ pub mod data;
 use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
 use benchmarks::sort::User;
-use wasm_bindgen::Clamped;
+use wasm_bindgen::{Clamped, JsCast};
+use js_sys::{ArrayBuffer, Uint8Array};
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -92,7 +93,14 @@ pub fn prime(max: usize) -> Vec<usize> {
 pub fn sha256() -> String {
     //web_sys::console::debug_1(&JsValue::from("Rust: sort"));
     let data = data::DATA_BYTES.lock().unwrap();
-    benchmarks::sha256::sha256(&data)
+    benchmarks::sha::sha256(&data)
+}
+
+#[wasm_bindgen]
+pub fn sha512() -> String {
+    //web_sys::console::debug_1(&JsValue::from("Rust: sort"));
+    let data = data::DATA_BYTES.lock().unwrap();
+    benchmarks::sha::sha512(&data)
 }
 
 #[wasm_bindgen]
@@ -109,6 +117,13 @@ pub fn deflate() {
     //web_sys::console::debug_1(&JsValue::from("Rust: deflate"));
     let data = data::DATA_BYTES.lock().unwrap();
     benchmarks::deflate::deflate(&data);
+}
+
+#[wasm_bindgen]
+pub fn exif() -> String {
+    //web_sys::console::debug_1(&JsValue::from("Rust: deflate"));
+    let data = data::DATA_BYTES.lock().unwrap();
+    benchmarks::exif::exif(&data)
 }
 
 #[wasm_bindgen]
@@ -143,7 +158,12 @@ pub fn prepare_test_data(test: &str, data: JsValue) {
             *data_entry = data;
         },
         "bytes" => {
-            let data: Vec<u8> = data.as_string().unwrap().into_bytes();
+            let arraybuffer: ArrayBuffer = data.dyn_into().unwrap();
+            let array: Uint8Array = Uint8Array::new(&arraybuffer);
+            let mut data = vec![0u8; arraybuffer.byte_length() as usize];
+            array.copy_to(&mut data[..]);
+            //web_sys::console::debug_1(&JsValue::from(format!("{} {}", &data[0], &data[1])));
+
             let mut data_entry = data::DATA_BYTES_BASE.lock().unwrap();
             *data_entry = data;
         }

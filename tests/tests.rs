@@ -12,7 +12,7 @@ use webassembly_benchmarks_rust::benchmarks::aes::{aes_encrypt, aes_decrypt};
 use webassembly_benchmarks_rust::benchmarks::deflate::{deflate, inflate};
 use wasm_bindgen::Clamped;
 //use test::Bencher;
-use webassembly_benchmarks_rust::benchmarks::sha256::sha256;
+use webassembly_benchmarks_rust::benchmarks::sha::{sha256, sha512};
 
 #[test]
 fn test_fibonacci() {
@@ -58,6 +58,14 @@ fn test_prime() {
 fn test_sha256() {
     let expect = "66840dda154e8a113c31dd0ad32f7f3a366a80e8136979d8f5a101d3d29d6f72";
     let actual = sha256(&vec![1, 2, 3, 4, 5, 6, 7, 8]);
+
+    assert_eq!(&expect, &actual);
+}
+
+#[test]
+fn test_sha512() {
+    let expect = "1818cc2acd207880a07afc360fd0da87e51ccf17e7c604c4eb16be5788322724c298e1fcc66eb293926993141ef0863c09eda383188cf5df49b910aacac17ec5";
+    let actual = sha512(&vec![1, 2, 3, 4, 5, 6, 7, 8]);
 
     assert_eq!(&expect, &actual);
 }
