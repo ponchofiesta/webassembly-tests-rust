@@ -149,6 +149,12 @@ pub fn convolve_video(data: Clamped<Vec<u8>>, width: usize, height: usize, facto
 }
 
 #[wasm_bindgen]
+pub fn dom(n: usize) -> Result<(), JsValue> {
+    //web_sys::console::debug_1(&JsValue::from("Rust: convolve_video"));
+    benchmarks::dom::dom(n)
+}
+
+#[wasm_bindgen]
 pub fn prepare_test_data(test: &str, data: JsValue) {
     //web_sys::console::debug_1(&JsValue::from("Rust: prepare_test_data"));
     match test {

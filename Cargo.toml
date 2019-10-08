@@ -13,16 +13,9 @@ default = ["console_error_panic_hook"]
 cfg-if = "0.1.2"
 
 # WASM
-#wasm-bindgen = "0.2"
-# Use 0.2.34 to make WASM work in Create React App
 wasm-bindgen = { version = "=0.2.51", features = ["serde-serialize"] }
-#wasm-bindgen = { version = "=0.2.42", features = ["serde-serialize"] }
 wasm-bindgen-futures = "0.3.27"
-#wasm-bindgen-futures = "0.3.19"
-web-sys = { version = "0.3.28", features = ["console", "Headers", "Request", "RequestInit", "RequestMode", "Response", "Window", "HtmlImageElement", "HtmlCanvasElement", "CanvasRenderingContext2d", "ImageData"] }
-#web-sys = { version = "0.3.19", features = ["console", "Headers", "Request", "RequestInit", "RequestMode", "Response", "Window"] }
 js-sys = "0.3.28"
-#js-sys = "0.3.19"
 serde = "^1.0.101"
 serde_derive = "^1.0.101"
 
@@ -60,6 +53,16 @@ console_error_panic_hook = { version = "0.1.1", optional = true }
 #
 # Unfortunately, `wee_alloc` requires nightly Rust when targeting wasm for now.
 wee_alloc = { version = "0.4.5", optional = true }
+
+
+[dependencies.web-sys]
+version = "0.3.28"
+features = [
+    "console", "Headers",
+    "Request", "RequestInit", "RequestMode", "Response",
+    "Window", 'Document', 'Element', 'HtmlElement', 'Node',
+    "HtmlImageElement", "HtmlCanvasElement", "CanvasRenderingContext2d", "ImageData"
+]
 
 [dev-dependencies]
 wasm-bindgen-test = "0.2"

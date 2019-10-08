@@ -11,3 +11,4 @@ pub mod iterate;
 pub mod strings;
 pub mod sum;
 pub mod convolve_video;
+pub mod dom;
