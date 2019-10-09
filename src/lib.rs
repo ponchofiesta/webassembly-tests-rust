@@ -21,7 +21,7 @@ use cfg_if::cfg_if;
 use wasm_bindgen::prelude::*;
 use benchmarks::sort::User;
 use wasm_bindgen::{Clamped, JsCast};
-use js_sys::{ArrayBuffer, Uint8Array};
+use js_sys::{Uint8Array};
 
 cfg_if! {
     // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -40,9 +40,9 @@ pub fn iterate(max: i32) -> i32 {
 }
 
 #[wasm_bindgen]
-pub fn strings_dynamic(a: &str, b: &str) {
+pub fn strings_dynamic(a: &str, b: &str) -> bool {
     //web_sys::console::debug_1(&JsValue::from("Rust: strings_dynamic"));
-    benchmarks::strings::strings_dynamic(a, b);
+    benchmarks::strings::strings_dynamic(a, b)
 }
 
 #[wasm_bindgen]
@@ -65,7 +65,7 @@ pub fn sum(repeat: i32) {
 
 #[wasm_bindgen]
 pub fn fibonacci(n: i32) -> i32 {
-    web_sys::console::debug_1(&JsValue::from("Rust: fibonacci"));
+    //web_sys::console::debug_1(&JsValue::from("Rust: fibonacci"));
     benchmarks::fibonacci::fibonacci(n)
 }
 
@@ -105,7 +105,7 @@ pub fn sha512() -> String {
 
 #[wasm_bindgen]
 pub fn aes() {
-    web_sys::console::debug_1(&JsValue::from("Rust: aes"));
+    //web_sys::console::debug_1(&JsValue::from("Rust: aes"));
     let key = [1u8, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     let iv = [17u8, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
     let data = data::DATA_BYTES.lock().unwrap();
@@ -156,7 +156,7 @@ pub fn dom(n: usize) -> Result<(), JsValue> {
 
 #[wasm_bindgen]
 pub fn prepare_test_data(test: &str, data: JsValue) {
-    //web_sys::console::debug_1(&JsValue::from("Rust: prepare_test_data"));
+    web_sys::console::debug_1(&JsValue::from("Rust: prepare_test_data"));
     match test {
         "sort" => {
             let data: Vec<User> = data.into_serde().unwrap();
@@ -164,10 +164,11 @@ pub fn prepare_test_data(test: &str, data: JsValue) {
             *data_entry = data;
         },
         "bytes" => {
-            let arraybuffer: ArrayBuffer = data.dyn_into().unwrap();
-            let array: Uint8Array = Uint8Array::new(&arraybuffer);
-            let mut data = vec![0u8; arraybuffer.byte_length() as usize];
-            array.copy_to(&mut data[..]);
+            //let arraybuffer: ArrayBuffer = data.dyn_into().unwrap();
+            //let array: Uint8Array = Uint8Array::new(&arraybuffer);
+            let uint8array: Uint8Array = data.dyn_into().unwrap();
+            let mut data = vec![0u8; uint8array.byte_length() as usize];
+            uint8array.copy_to(&mut data[..]);
             //web_sys::console::debug_1(&JsValue::from(format!("{} {}", &data[0], &data[1])));
 
             let mut data_entry = data::DATA_BYTES_BASE.lock().unwrap();
@@ -179,7 +180,7 @@ pub fn prepare_test_data(test: &str, data: JsValue) {
 
 #[wasm_bindgen]
 pub fn reset_test_data(test: &str) {
-    //web_sys::console::debug_1(&JsValue::from("Rust: reset_test_data"));
+    web_sys::console::debug_1(&JsValue::from("Rust: reset_test_data"));
     match test {
         "sort" => {
             let base = data::DATA_SORT_BASE.lock().unwrap();
@@ -197,7 +198,7 @@ pub fn reset_test_data(test: &str) {
 
 #[wasm_bindgen]
 pub fn clear_test_data(test: &str) {
-    //web_sys::console::debug_1(&JsValue::from("Rust: clear_test_data"));
+    web_sys::console::debug_1(&JsValue::from("Rust: clear_test_data"));
     match test {
         "sort" => {
             let mut data = data::DATA_SORT.lock().unwrap();
