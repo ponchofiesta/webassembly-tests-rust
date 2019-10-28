@@ -1,3 +1,4 @@
+pub mod base64;
 pub mod hanoi;
 pub mod sort;
 pub mod fibonacci;

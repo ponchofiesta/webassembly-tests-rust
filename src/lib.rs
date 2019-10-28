@@ -6,6 +6,7 @@ extern crate serde;
 extern crate wasm_bindgen_futures;
 extern crate sha2;
 extern crate hex;
+extern crate base64;
 
 #[macro_use]
 extern crate lazy_static;
@@ -31,6 +32,14 @@ cfg_if! {
         #[global_allocator]
         static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
     }
+}
+
+
+
+#[wasm_bindgen]
+pub fn base64(data: Vec<u8>) -> String {
+    //web_sys::console::debug_1(&JsValue::from("Rust: iterate"));
+    benchmarks::base64::base64(&data)
 }
 
 #[wasm_bindgen]

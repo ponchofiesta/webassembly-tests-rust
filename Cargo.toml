@@ -41,6 +41,9 @@ inflate = "0.4.5"
 kamadak-exif = "0.3.1"
 rexif = "0.3.6"
 
+# Base64
+base64 = "0.11.0"
+
 # The `console_error_panic_hook` crate provides better debugging of panics by
 # logging them with `console.error`. This is great for development, but requires
 # all the `std::fmt` and `std::panicking` infrastructure, so isn't great for

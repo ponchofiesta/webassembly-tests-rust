@@ -5,6 +5,7 @@ extern crate wasm_bindgen;
 //extern crate test;
 
 use webassembly_benchmarks_rust::benchmarks::{fibonacci, sort};
+use webassembly_benchmarks_rust::benchmarks::base64;
 use webassembly_benchmarks_rust::benchmarks::hanoi;
 use webassembly_benchmarks_rust::benchmarks::sort::User;
 use webassembly_benchmarks_rust::benchmarks::prime::prime;
@@ -13,6 +14,14 @@ use webassembly_benchmarks_rust::benchmarks::deflate::{deflate, inflate};
 use wasm_bindgen::Clamped;
 //use test::Bencher;
 use webassembly_benchmarks_rust::benchmarks::sha::{sha256, sha512};
+
+#[test]
+fn test_base64() {
+    let data = vec![1, 2, 3];
+    let expected = "AQID";
+    let actual = base64::base64(&data);
+    assert_eq!(&expected, &actual);
+}
 
 #[test]
 fn test_fibonacci() {
