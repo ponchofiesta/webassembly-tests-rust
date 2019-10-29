@@ -43,6 +43,13 @@ pub fn base64(data: Vec<u8>) -> String {
 }
 
 #[wasm_bindgen]
+pub fn base64_prepared() -> String {
+    //web_sys::console::debug_1(&JsValue::from("Rust: iterate"));
+    let data = data::DATA_BYTES.lock().unwrap();
+    benchmarks::base64::base64(&data)
+}
+
+#[wasm_bindgen]
 pub fn iterate(max: i32) -> i32 {
     //web_sys::console::debug_1(&JsValue::from("Rust: iterate"));
     benchmarks::iterate::iterate(max)
@@ -99,33 +106,47 @@ pub fn prime(max: usize) -> Vec<usize> {
 }
 
 #[wasm_bindgen]
-pub fn sha256() -> String {
+pub fn sha256(data: &[u8]) -> String {
+    //web_sys::console::debug_1(&JsValue::from("Rust: sort"));
+    //let data = data::DATA_BYTES.lock().unwrap();
+    benchmarks::sha::sha256(&data)
+}
+
+#[wasm_bindgen]
+pub fn sha256_prepared() -> String {
     //web_sys::console::debug_1(&JsValue::from("Rust: sort"));
     let data = data::DATA_BYTES.lock().unwrap();
     benchmarks::sha::sha256(&data)
 }
 
 #[wasm_bindgen]
-pub fn sha512() -> String {
+pub fn sha512(data: &[u8]) -> String {
     //web_sys::console::debug_1(&JsValue::from("Rust: sort"));
-    let data = data::DATA_BYTES.lock().unwrap();
+    //let data = data::DATA_BYTES.lock().unwrap();
     benchmarks::sha::sha512(&data)
 }
 
 #[wasm_bindgen]
-pub fn aes() {
+pub fn aes(data: &[u8]) -> Vec<u8> {
     //web_sys::console::debug_1(&JsValue::from("Rust: aes"));
     let key = [1u8, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
     let iv = [17u8, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32];
-    let data = data::DATA_BYTES.lock().unwrap();
-    benchmarks::aes::aes_encrypt(&key, &iv, &data);
+    //let data = data::DATA_BYTES.lock().unwrap();
+    benchmarks::aes::aes_encrypt(&key, &iv, &data)
 }
 
 #[wasm_bindgen]
-pub fn deflate() {
+pub fn deflate(data: &[u8]) -> Vec<u8> {
+    //web_sys::console::debug_1(&JsValue::from("Rust: deflate"));
+    //let data = data::DATA_BYTES.lock().unwrap();
+    benchmarks::deflate::deflate(&data)
+}
+
+#[wasm_bindgen]
+pub fn deflate_prepared() -> Vec<u8> {
     //web_sys::console::debug_1(&JsValue::from("Rust: deflate"));
     let data = data::DATA_BYTES.lock().unwrap();
-    benchmarks::deflate::deflate(&data);
+    benchmarks::deflate::deflate(&data)
 }
 
 #[wasm_bindgen]
@@ -144,6 +165,17 @@ pub fn convolve(canvas: &web_sys::HtmlCanvasElement) {
         0.0, 0.2, 0.0,
     ];
     benchmarks::convolve::convolve(&canvas, &matrix, 1.0);
+}
+
+#[wasm_bindgen]
+pub fn convolve_mem(data: &[u8], width: usize, height: usize) -> Vec<u8> {
+    //web_sys::console::debug_1(&JsValue::from("Rust: convolve"));
+    let matrix = [
+        0.0, 0.2, 0.0,
+        0.2, 0.2, 0.2,
+        0.0, 0.2, 0.0,
+    ];
+    benchmarks::convolve_mem::convolve_mem(data, width, height, &matrix, 1.0)
 }
 
 #[wasm_bindgen]

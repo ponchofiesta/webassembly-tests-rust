@@ -8,6 +8,7 @@ pub mod aes;
 pub mod deflate;
 pub mod exif;
 pub mod convolve;
+pub mod convolve_mem;
 pub mod iterate;
 pub mod strings;
 pub mod sum;
